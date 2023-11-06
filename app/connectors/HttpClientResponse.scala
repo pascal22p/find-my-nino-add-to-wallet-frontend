@@ -26,6 +26,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class HttpClientResponse @Inject()(implicit ec: ExecutionContext) extends Logging {
 
+  //todo: this is used on only one method and is completely out of pattern with the rest
   def read(
     response: Future[Either[UpstreamErrorResponse, HttpResponse]]
   ): EitherT[Future, UpstreamErrorResponse, HttpResponse] =

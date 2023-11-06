@@ -29,6 +29,7 @@ class SimpleHttp @Inject()(http: HttpClient)(implicit executionContext: Executio
     override def read(method: String, url: String, response: HttpResponse): HttpResponse = response
   }
 
+  //todo: useless??
   def get[T](
     url: String
   )(onComplete: HttpResponse => T, onError: Exception => T)(implicit hc: HeaderCarrier): Future[T] =
@@ -39,6 +40,7 @@ class SimpleHttp @Inject()(http: HttpClient)(implicit executionContext: Executio
     }
 
   // $COVERAGE-OFF$
+  //todo: useless??
   def post[I, T](url: String, body: I)(onComplete: HttpResponse => T, onError: Exception => T)(implicit
     hc: HeaderCarrier,
     w: Writes[I]
@@ -49,6 +51,7 @@ class SimpleHttp @Inject()(http: HttpClient)(implicit executionContext: Executio
       onError(e)
     }
 
+  //todo: useless??
   def put[I, T](url: String, body: I)(onComplete: HttpResponse => T, onError: Exception => T)(implicit
     hc: HeaderCarrier,
     w: Writes[I]

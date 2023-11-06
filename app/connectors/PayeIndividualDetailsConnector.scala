@@ -45,6 +45,7 @@ class PayeIndividualDetailsConnector @Inject()(
                                                 config: ConfigDecorator
                                               ) extends Logging {
 
+  //todo: this is not used
   def individualDetails(nino: Nino)(implicit hc: HeaderCarrier): Future[IndividualDetailsResponse] = {
     simpleHttp.get[IndividualDetailsResponse](s"${config.api1303ServiceUrl}/pay-as-you-earn/02.00.00/individuals/$nino")(
       onComplete = {

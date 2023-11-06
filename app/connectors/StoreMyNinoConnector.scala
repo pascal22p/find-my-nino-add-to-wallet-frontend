@@ -33,12 +33,14 @@ case class GooglePassDetailsWithCredentials(fullName: String, nino: String, cred
 
 class StoreMyNinoConnector @Inject()(config: ConfigDecorator, http: HttpClient) {
 
+  //todo: not needed. Correct content-type added automatically
   private val headers: Seq[(String, String)] = Seq("Content-Type" -> "application/json")
   implicit val writes: Writes[ApplePassDetails] = Json.writes[ApplePassDetails]
 
   implicit val googleWrites: Writes[GooglePassDetails] = Json.writes[GooglePassDetails]
   implicit val googleWritesWithCredentials: Writes[GooglePassDetailsWithCredentials] = Json.writes[GooglePassDetailsWithCredentials]
 
+  //todo: only used in tests
   def createPersonDetailsRow(personDetails:PersonDetails)
                            (implicit ec: ExecutionContext, headerCarrier: HeaderCarrier): Future[Some[String]] = {
     val url = s"${config.findMyNinoServiceUrl}/find-my-nino-add-to-wallet/create-person-details"
@@ -48,11 +50,13 @@ class StoreMyNinoConnector @Inject()(config: ConfigDecorator, http: HttpClient) 
       .map { response =>
         response.status match {
           case OK => Some(response.body)
+          //todo: Not using PersonDetailsErrorResponse like the rest?
           case _ => throw new HttpException(response.body, response.status)
         }
       }
   }
 
+  //todo: only used in tests
   def getPersonDetails(pdId: String)
                   (implicit ec: ExecutionContext, headerCarrier: HeaderCarrier): Future[Option[String]] = {
 
@@ -63,6 +67,7 @@ class StoreMyNinoConnector @Inject()(config: ConfigDecorator, http: HttpClient) 
       .map { response =>
         response.status match {
           case OK => Some(response.body)
+          //todo: Not using PersonDetailsErrorResponse like the rest?
           case _ => throw new HttpException(response.body, response.status)
         }
       }
@@ -80,11 +85,13 @@ class StoreMyNinoConnector @Inject()(config: ConfigDecorator, http: HttpClient) 
       .map { response =>
         response.status match {
           case OK => Some(response.body)
+          //todo: Not using PersonDetailsErrorResponse like the rest?
           case _ => throw new HttpException(response.body, response.status)
         }
       }
   }
 
+  //todo: Why are binary data passed between micro-services?
   def getApplePass(passId: String)
                   (implicit ec: ExecutionContext, headerCarrier: HeaderCarrier): Future[Option[Array[Byte]]] = {
 
@@ -94,13 +101,16 @@ class StoreMyNinoConnector @Inject()(config: ConfigDecorator, http: HttpClient) 
     http.GET[HttpResponse](url)(implicitly, hc, implicitly)
       .map { response =>
         response.status match {
+          //todo why is the body base64 encoded? The one in createApplePass was not
           case OK => Some(Base64.getDecoder.decode(response.body))
           case NOT_FOUND => None
+          //todo: Not using PersonDetailsErrorResponse like the rest?
           case _ => throw new HttpException(response.body, response.status)
         }
       }
   }
 
+  //todo: Why are binary data passed between micro-services?
   def getApplePassByNameAndNino(fullName: String, nino: String)
                                (implicit ec: ExecutionContext, headerCarrier: HeaderCarrier): Future[Option[Array[Byte]]] = {
 
@@ -110,12 +120,16 @@ class StoreMyNinoConnector @Inject()(config: ConfigDecorator, http: HttpClient) 
     http.GET[HttpResponse](url)(implicitly, hc, implicitly)
       .map { response =>
         response.status match {
+          //todo why is the body base64 encoded? The one in createApplePass was not
           case OK => Some(Base64.getDecoder.decode(response.body))
+          //todo: Not using PersonDetailsErrorResponse like the rest?
           case _ => throw new HttpException(response.body, response.status)
+          //todo: Where is not found?
         }
       }
   }
 
+  //todo: Why are binary data passed between micro-services?
   def getQrCode(passId: String)
                (implicit ec: ExecutionContext, headerCarrier: HeaderCarrier): Future[Option[Array[Byte]]] = {
 
@@ -125,8 +139,10 @@ class StoreMyNinoConnector @Inject()(config: ConfigDecorator, http: HttpClient) 
     http.GET[HttpResponse](url)(implicitly, hc, implicitly)
       .map { response =>
         response.status match {
+          //todo why is the body base64 encoded? The one in createApplePass was not
           case OK => Some(Base64.getDecoder.decode(response.body))
           case NOT_FOUND => None
+          //todo: Not using PersonDetailsErrorResponse like the rest?
           case _ => throw new HttpException(response.body, response.status)
         }
       }
@@ -144,6 +160,7 @@ class StoreMyNinoConnector @Inject()(config: ConfigDecorator, http: HttpClient) 
       .map { response =>
         response.status match {
           case OK => Some(response.body)
+          //todo: Not using PersonDetailsErrorResponse like the rest?
           case _ => throw new HttpException(response.body, response.status)
         }
       }
@@ -160,11 +177,13 @@ class StoreMyNinoConnector @Inject()(config: ConfigDecorator, http: HttpClient) 
         response.status match {
           case OK => Some(response.body)
           case NOT_FOUND => None
+          //todo: Not using PersonDetailsErrorResponse like the rest?
           case  _ => throw new HttpException(response.body, response.status)
         }
       }
   }
 
+  //todo: Why are binary data passed between micro-services?
   def getGooglePassQrCode(passId: String)
                          (implicit ec: ExecutionContext, headerCarrier: HeaderCarrier): Future[Option[Array[Byte]]] = {
 
@@ -176,6 +195,7 @@ class StoreMyNinoConnector @Inject()(config: ConfigDecorator, http: HttpClient) 
         response.status match {
           case OK => Some(Base64.getDecoder.decode(response.body))
           case NOT_FOUND => None
+          //todo: Not using PersonDetailsErrorResponse like the rest?
           case _ => throw new HttpException(response.body, response.status)
         }
       }

@@ -24,8 +24,11 @@ import views.html.templates.{LayoutProvider, NewLayoutProvider, OldLayoutProvide
 
 import java.time.{Clock, ZoneOffset}
 
-class Module(environment: Environment, config: Configuration) extends AbstractModule {
+class Module(
+              environment: Environment, //todo: not used
+              config: Configuration) extends AbstractModule {
 
+  //todo why is it not using FrontendAppConfig
   private val scaWrapperEnabled = config.getOptional[Boolean]("features.sca-wrapper-enabled").getOrElse(false)
   override def configure(): Unit = {
 

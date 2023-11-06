@@ -25,22 +25,30 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import java.net.URLEncoder
 
+//todo why ConfigDecorator and FrontendAppConfig? Are they not the same thing?
 @Singleton
 class ConfigDecorator @Inject()(configuration: Configuration, servicesConfig: ServicesConfig) {
 
+  //todo not used
   val host: String    = configuration.get[String]("host")
   val appName: String = configuration.get[String]("appName")
 
   val serviceName = "save-your-national-insurance-number"
+  //todo not used
   val serviceNamePTA = "Personal tax account"
 
+  //todo not used
   val gtmContainer: String = configuration.get[String]("tracking-consent-frontend.gtm.container")
+  //todo not used
   lazy val trackingHost: String                = getExternalUrl(s"tracking-frontend.host").getOrElse("")
+  //todo not used
   lazy val trackingServiceUrl = s"$trackingHost/track"
   val enc = URLEncoder.encode(_: String, "UTF-8")
 
   val loginUrl: String = configuration.get[String]("urls.login")
   val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")
+
+  //todo not used
   val signOutUrl: String = configuration.get[String]("urls.signOut")
   lazy val findMyNinoServiceUrl: String = servicesConfig.baseUrl("find-my-nino-add-to-wallet-service")
   lazy val citizenDetailsServiceUrl: String = servicesConfig.baseUrl("citizen-details-service")
@@ -51,8 +59,10 @@ class ConfigDecorator @Inject()(configuration: Configuration, servicesConfig: Se
   lazy val feedbackSurveyFrontendHost = getExternalUrl(s"feedback-survey-frontend.host").getOrElse("")
   //val feedbackSurveyFrontendHost = servicesConfig.baseUrl("feedback-survey-frontend")
 
+  //todo not used
   lazy val generalQueriesUrl     = "https://www.gov.uk/contact-hmrc"
 
+  //todo not used
   lazy val saveYourNationalNumberFrontendHost: String = getExternalUrl(s"save-your-national-insurance-number-frontend.host").getOrElse("")
 
   private lazy val taxEnrolmentAssignmentFrontendHost: String = getExternalUrl(s"tax-enrolment-assignment-frontend.host").getOrElse("")
@@ -69,12 +79,14 @@ class ConfigDecorator @Inject()(configuration: Configuration, servicesConfig: Se
   def getBasGatewayFrontendSignOutUrl(continueUrl: String): String =
     basGatewayFrontendHost + s"/bas-gateway/sign-out-without-state?continue=$continueUrl"
 
+  //todo not used
   def getTaxEnrolmentAssignmentRedirectUrl(url: String): String =
     s"$taxEnrolmentAssignmentFrontendHost/protect-tax-info?redirectUrl=${SafeRedirectUrl(url).encodedUrl}"
 
   //val exitSurveyUrl: String             = s"$feedbackSurveyFrontendHost/feedback/$serviceName"
   //val exitSurveyUrl: String             = s"${servicesConfig.baseUrl("feedback-frontend")}/feedback/$serviceName"
 
+  //todo not used
   val languageTranslationEnabled: Boolean =
     configuration.get[Boolean]("features.welsh-translation")
 
@@ -97,8 +109,10 @@ class ConfigDecorator @Inject()(configuration: Configuration, servicesConfig: Se
   def accessibilityStatementUrl(referrer: String) =
     s"$accessibilityBaseUrl/accessibility-statement$accessibilityRedirectUrl?referrerUrl=${SafeRedirectUrl(accessibilityBaseUrl + referrer).encodedUrl}"
 
+  //todo not used
   lazy val wrapperEnabled = configuration.getOptional[Boolean]("features.sca-wrapper-enabled").getOrElse(false)
 
+  //todo not used
   val googleIssuerId: String = configuration.get[String]("googlePass.issuerId")
   val googleKey: String = configuration.get[String]("googlePass.key")
 }

@@ -24,6 +24,7 @@ import uk.gov.hmrc.http.HttpVerbs.GET
 
 import javax.inject.Inject
 
+//todo: Why was allow list filter from bootstrap not used? https://github.com/hmrc/bootstrap-play#allow-list-filter
 class AllowlistFilter @Inject() (
   config: Configuration,
   override val mat: Materializer

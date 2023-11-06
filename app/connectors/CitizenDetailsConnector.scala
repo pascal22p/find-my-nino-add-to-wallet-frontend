@@ -62,6 +62,8 @@ class CitizenDetailsConnector @Inject() (
                 s"Unexpected ${response.status} response getting personal details record from citizen-details"
               )
             PersonDetailsUnexpectedResponse(response)
+
+            //todo missing default. match may not be exhaustive.
         },
         onError = { e =>
           logger.warn("Error getting personal details record from citizen-details", e)
